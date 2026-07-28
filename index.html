@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pritisa My World ❤️</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary-color: #ff2a6d;
+      --secondary-color: #ff75a0;
+      --accent-color: #ffb6c1;
+      --bg-color: #2a081a;
+      --card-bg: rgba(255, 182, 193, 0.12);
+      --text-color: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1f0513 0%, #3a0d25 50%, #521332 100%);
+      color: var(--text-color);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Floating Background Particles */
+    .particle-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .floating-item {
+      position: absolute;
+      bottom: -80px;
+      animation: floatUp linear infinite;
+      opacity: 0.85;
+      filter: drop-shadow(0 0 10px rgba(255, 117, 160, 0.6));
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0.9; }
+      100% { transform: translateY(-115vh) rotate(360deg) scale(0.9); opacity: 0; }
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.8rem;
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 20px rgba(255, 42, 109, 0.6);
+    }
+
+    .subtitle {
+      font-weight: 400;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: var(--accent-color);
+      letter-spacing: 0.5px;
+    }
+
+    section {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 182, 193, 0.25);
+      border-radius: 25px;
+      padding: 2.2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Love Letter Section */
+    .letter {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.65rem;
+      line-height: 1.9;
+      text-align: left;
+      color: #fff0f3;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 2rem;
+      border-radius: 20px;
+      border-left: 4px solid var(--primary-color);
+    }
+
+    /* Reasons Banner Row */
+    .reason-row {
+      background: linear-gradient(90deg, rgba(255, 42, 109, 0.25) 0%, rgba(255, 117, 160, 0.15) 100%);
+      padding: 1.1rem 1.6rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 117, 160, 0.3);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .reason-row:hover {
+      transform: translateX(6px);
+    }
+
+    .reason-row span {
+      font-size: 1.8rem;
+    }
+
+    /* Surprise Heading Style */
+    .surprise-heading {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.5rem;
+      color: #fff;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 15px var(--primary-color);
+      animation: heartBeat 1.5s infinite;
+    }
+
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    .surprise-subheading {
+      font-size: 1.4rem;
+      color: var(--accent-color);
+      margin-bottom: 2rem;
+      font-weight: 600;
+    }
+
+    .btn-action {
+      background: linear-gradient(45deg, #ff2a6d, #ff75a0);
+      color: white;
+      border: none;
+      padding: 15px 32px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(255, 42, 109, 0.5);
+    }
+
+    .btn-action:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-yes {
+      background: linear-gradient(45deg, #00b09b, #96c93d);
+      box-shadow: 0 5px 20px rgba(0, 176, 155, 0.5);
+    }
+
+    .btn-no {
+      background: linear-gradient(45deg, #ff416c, #ff4b2b);
+      box-shadow: 0 5px 20px rgba(255, 65, 108, 0.5);
+    }
+
+    #surpriseGallery {
+      display: none;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .media-grid img, .media-grid video {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 2px solid var(--secondary-color);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    .time-box {
+      background: rgba(255, 42, 109, 0.2);
+      border: 1px solid rgba(255, 117, 160, 0.4);
+      padding: 12px 18px;
+      border-radius: 15px;
+      min-width: 75px;
+    }
+
+    /* Proposal Card */
+    .proposal-card {
+      margin-top: 3rem;
+      background: rgba(255, 42, 109, 0.2);
+      border: 2px solid var(--secondary-color);
+      border-radius: 25px;
+      padding: 2.5rem 1.5rem;
+      box-shadow: 0 0 30px rgba(255, 42, 109, 0.4);
+    }
+
+    .proposal-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 10px #ff75a0;
+    }
+
+    #proposalResponse {
+      margin-top: 1.5rem;
+      font-size: 1.8rem;
+      font-family: 'Dancing Script', cursive;
+      color: #ffe6ea;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="ytMusicPlayer" style="display:none;"></div>
+
+  <div class="particle-container" id="particleContainer"></div>
+
+  <div class="content">
+    <header>
+      <h1>Pritisa Raut ❤️</h1>
+      <p class="subtitle">My world, my everything, my baby 💕✨</p>
+    </header>
+
+    <section>
+      <h2 style="font-family:'Dancing Script'; font-size: 2.5rem; color:#ff8fa3;">Countdown ⏳</h2>
+      <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+        <div class="time-box"><span id="days" style="font-size:1.8rem; font-weight:bold;">00</span><br>Days</div>
+        <div class="time-box"><span id="hours" style="font-size:1.8rem; font-weight:bold;">00</span><br>Hours</div>
+        <div class="time-box"><span id="minutes" style="font-size:1.8rem; font-weight:bold;">00</span><br>Mins</div>
+        <div class="time-box"><span id="seconds" style="font-size:1.8rem; font-weight:bold;">00</span><br>Secs</div>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-family:'Dancing Script'; font-size: 2.5rem; color:#ff8fa3;">A Note for You 💌</h2>
+      <div class="letter">
+        💖 <strong>A Note for My Beautiful Girlfriend</strong> 💖<br><br>
+        <strong>My Dearest Baby , ❤️</strong><br><br>
+        I just want you to know how deeply I love you. Every day, my love for you grows stronger, and I promise it will never fade. You are the most beautiful part of my life, and I feel so lucky to have you. 🥰<br><br>
+        No matter what happens, I will always stand by your side, care for you, support you, and protect you. 🤝💕<br><br>
+        Through several lifetimes, I want us to stay together. 🌹 I wish to love you in this life and in every lifetime that follows. My heart belongs to you, today, tomorrow, and forever. ♾️❤️<br><br>
+        Thank you for filling my life with love, happiness, and beautiful memories. I promise to keep loving you with all my heart, respect you, and never stop choosing you every single day. 💞<br><br>
+        I love you more than words can ever express. You are my today, my tomorrow, and my forever. 🌍❤️<br><br>
+        <strong>Forever yours,</strong><br>
+        <strong>Sandesh Niroula ❤️</strong>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-family:'Dancing Script'; font-size: 2.5rem; color:#ff8fa3;">Why I Love You 💖</h2>
+      <div class="reason-row"><span>👀✨</span> <div><strong>Your Eyes:</strong> The prettiest in the world where I lose myself every single time.</div></div>
+      <div class="reason-row"><span>🎶💖</span> <div><strong>Your Voice:</strong> My absolute favorite sound that brings instant peace to my heart.</div></div>
+      <div class="reason-row"><span>🥰🌸</span> <div><strong>Your Cuteness:</strong> The adorable little ways you express yourself that melt my heart.</div></div>
+      <div class="reason-row"><span>😊✨</span> <div><strong>Your Smile:</strong> The brightest light that can illuminate my darkest days.</div></div>
+      <div class="reason-row"><span>💇‍♀️💫</span> <div><strong>Your Hair:</strong> Absolutely gorgeous and soft, just like everything about you.</div></div>
+      <div class="reason-row"><span>💗🤝</span> <div><strong>Your Loving Nature:</strong> The immense warmth, care, and love you shower upon me.</div></div>
+      <div class="reason-row"><span>😳💕</span> <div><strong>Your Cheeks:</strong> The cutest cheeks that I could admire forever.</div></div>
+      <div class="reason-row"><span>👑🌟</span> <div><strong>You Are The Best:</strong> Simply the most incredible, irreplaceable person in my entire universe.</div></div>
+    </section>
+
+    <section>
+      <p style="margin-bottom: 15px; color: var(--accent-color);">Ready for something special?</p>
+      <button class="btn-action" onclick="showSurprise()">🎁 Click for a surprise</button>
+    </section>
+
+    <div id="surpriseGallery">
+      <h1 class="surprise-heading">It's a Happy Girlfriend Day!</h1>
+      <p class="surprise-subheading">Happy Girlfriend Day to you baby 💗✨</p>
+      
+      <div class="media-grid" id="photoGallery">
+        <img src="photo1.jpg" alt="Pritisa" onerror="this.remove()">
+      </div>
+
+      <div class="media-grid" id="videoGallery"></div>
+
+      <div class="proposal-card">
+        <h2 class="proposal-title">Will you be my lifetime Valentine Pritisa? 💖</h2>
+        <div>
+          <button class="btn-action btn-yes" onclick="handleYesResponse()">YES! 💕</button>
+          <button class="btn-action btn-no" onclick="handleNoResponse()">NO 😭</button>
+        </div>
+        <div id="proposalResponse"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Reveal Secret & Launch Poppers
+    function showSurprise() {
+      const gallery = document.getElementById('surpriseGallery');
+      gallery.style.display = 'block';
+      gallery.scrollIntoView({ behavior: 'smooth' });
+      
+      // Start A Thousand Years Song
+      document.getElementById('ytMusicPlayer').innerHTML = `<iframe width="1" height="1" src="https://www.youtube.com/embed/rtOvBOTyX00?autoplay=1&loop=1&playlist=rtOvBOTyX00" frameborder="0" allow="autoplay"></iframe>`;
+
+      // Special Upward Popper Animation
+      firePoppers();
+    }
+
+    function firePoppers() {
+      const duration = 5 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+      }, 250);
+    }
+
+    // YES Click Handler
+    function handleYesResponse() {
+      const respBox = document.getElementById('proposalResponse');
+      respBox.style.display = 'block';
+      respBox.innerHTML = "💖 I love you so much, baby. I will always love you! 💖✨";
+      
+      // Heart Explosions
+      confetti({
+        particleCount: 180,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+      firePoppers();
+    }
+
+    // NO Click Handler
+    function handleNoResponse() {
+      const respBox = document.getElementById('proposalResponse');
+      respBox.style.display = 'block';
+      respBox.innerHTML = "😭 🥺 💔 Please think again baby, you are my everything! 😭💔";
+      
+      // Crying particles on screen
+      const container = document.getElementById('particleContainer');
+      for (let i = 0; i < 25; i++) {
+        const p = document.createElement('div');
+        p.className = 'floating-item';
+        p.innerText = '😭';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = '3s';
+        p.style.fontSize = '40px';
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 3000);
+      }
+    }
+
+    // Dynamic Media Auto-Loader
+    function loadMedia() {
+      const pG = document.getElementById('photoGallery');
+      const vG = document.getElementById('videoGallery');
+
+      // Auto loads photo2.jpg to photo20.jpg if available
+      for (let i = 2; i <= 20; i++) {
+        let img = document.createElement('img');
+        img.src = `photo${i}.jpg`;
+        img.onerror = () => img.remove();
+        pG.appendChild(img);
+      }
+
+      // Auto loads video1.mp4 to video20.mp4 if available
+      for (let i = 1; i <= 20; i++) {
+        let vid = document.createElement('video');
+        vid.controls = true;
+        let src = document.createElement('source');
+        src.src = `video${i}.mp4`;
+        vid.appendChild(src);
+        vid.onerror = () => vid.remove();
+        vG.appendChild(vid);
+      }
+    }
+    loadMedia();
+
+    // Floating Particles
+    function createParticles() {
+      const container = document.getElementById('particleContainer');
+      const items = ['💖', '💗', '💓', '🎈', '🌸', '🌺', '✨', '💕', '❤️'];
+      setInterval(() => {
+        const p = document.createElement('div');
+        p.className = 'floating-item';
+        p.innerText = items[Math.floor(Math.random() * items.length)];
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 4 + 5) + 's';
+        p.style.fontSize = (Math.random() * 25 + 30) + 'px';
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 8000);
+      }, 400);
+    }
+    createParticles();
+
+    // Countdown Timer
+    setInterval(() => {
+      const target = new Date("August 1, 2026 00:00:00").getTime();
+      const diff = target - new Date().getTime();
+      if (diff > 0) {
+        document.getElementById('days').innerText = Math.floor(diff / 86400000);
+        document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
+        document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
+        document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
